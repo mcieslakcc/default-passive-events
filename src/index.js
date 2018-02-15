@@ -4,9 +4,11 @@ const defaultOptions = {
   passive: true,
   capture: false
 };
-const supportedPassiveTypes = [
+
+let supportedPassiveTypes = [
   'scroll', 'wheel',
-  'touchstart', 'touchmove', 'touchenter', 'touchend', 'touchleave', 'mousewheel', 'mouseover'
+    'touchstart', 'touchmove', 'touchenter', 'touchend', 'touchleave',
+    'mouseout', 'mouseleave', 'mouseup', 'mousedown', 'mousemove', 'mouseenter', 'mousewheel', 'mouseover'
 ];
 const getDefaultPassiveOption = (passive, eventName) => {
   if (passive !== undefined) return passive;
@@ -46,7 +48,16 @@ const overwriteAddEvent = (superMethod) => {
 
 const supportsPassive = eventListenerOptionsSupported();
 
-if (supportsPassive) {
-  const addEvent = EventTarget.prototype.addEventListener;
-  overwriteAddEvent(addEvent);
-}
+export const markEventsAsPassive = (events) => {
+    if (Array.isArray(events)) {
+        supportedPassiveTypes = events;
+    }
+    if (supportsPassive) {
+        const addEvent = EventTarget.prototype.addEventListener;
+        overwriteAddEvent(addEvent);
+    }
+};
+
+
+
+
