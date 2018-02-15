@@ -58,7 +58,7 @@ const markEventsAsPassive = (events) => {
     }
 };
 
-export default markEventsAsPassive;
+module.exports = markEventsAsPassive;
 
 
 
