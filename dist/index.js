@@ -160,4 +160,3 @@ var noop = exports.noop = function noop() {};
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=index.js.map
