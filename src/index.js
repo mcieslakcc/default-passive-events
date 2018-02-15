@@ -13,7 +13,6 @@ let supportedPassiveTypes = [
 
 const getDefaultPassiveOption = (passive, eventName) => {
   if (passive !== undefined) return passive;
-
   return supportedPassiveTypes.indexOf(eventName) === -1 ? false : defaultOptions.passive;
 };
 
@@ -42,7 +41,7 @@ const overwriteAddEvent = (superMethod) => {
     options.passive = getDefaultPassiveOption(options.passive, type);
     options.capture = useCapture === undefined ? defaultOptions.capture : useCapture;
     listener        = prepareSafeListener(listener, options.passive);
-
+    console.log('supportedPassiveTypes', supportedPassiveTypes);
     superMethod.call(this, type, listener, options);
   };
 };
@@ -53,6 +52,7 @@ export const markEventsAsPassive = (events) => {
     if (Array.isArray(events)) {
         supportedPassiveTypes = events;
     }
+    console.log('events', events);
     if (supportsPassive) {
         const addEvent = EventTarget.prototype.addEventListener;
         overwriteAddEvent(addEvent);
