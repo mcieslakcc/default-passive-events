@@ -1,2 +1,162 @@
-!function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};t.m=e,t.c=n,t.d=function(e,n,o){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:o})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,n){"use strict";var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},r=n(1),u={passive:!0,capture:!1},i=["scroll","wheel","touchstart","touchmove","touchenter","touchend","touchleave","mouseout","mouseleave","mouseup","mousedown","mousemove","mouseenter","mousewheel","mouseover"],s=function(e,t){return void 0!==e?e:-1!==i.indexOf(t)&&u.passive},c=function(e){var t=Object.getOwnPropertyDescriptor(e,"passive");return t&&!0!==t.writable&&void 0===t.set?Object.assign({},e):e},p=function(e,t){return t?function(t){return t.preventDefault=r.noop,e.call(this,t)}:e},a=function(e){EventTarget.prototype.addEventListener=function(t,n,r){var i="object"===(void 0===r?"undefined":o(r))&&null!==r,a=i?r.capture:r;r=i?c(r):{},r.passive=s(r.passive,t),r.capture=void 0===a?u.capture:a,n=p(n,r.passive),e.call(this,t,n,r)}},f=(0,r.eventListenerOptionsSupported)(),l=function(e){if(Array.isArray(e)&&(i=e),f){var t=EventTarget.prototype.addEventListener;a(t)}};e.exports=l},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});t.eventListenerOptionsSupported=function(){var e=!1;try{var t=Object.defineProperty({},"passive",{get:function(){e=!0}});window.addEventListener("test",null,t),window.removeEventListener("test",null,t)}catch(e){}return e},t.noop=function(){}}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _utils = __webpack_require__(1);
+
+var defaultOptions = {
+  passive: true,
+  capture: false
+};
+
+var supportedPassiveTypes = ['scroll', 'wheel', 'touchstart', 'touchmove', 'touchenter', 'touchend', 'touchleave', 'mouseout', 'mouseleave', 'mouseup', 'mousedown', 'mousemove', 'mouseenter', 'mousewheel', 'mouseover'];
+var getDefaultPassiveOption = function getDefaultPassiveOption(passive, eventName) {
+  if (passive !== undefined) return passive;
+
+  return supportedPassiveTypes.indexOf(eventName) === -1 ? false : defaultOptions.passive;
+};
+
+var getWritableOptions = function getWritableOptions(options) {
+  var passiveDescriptor = Object.getOwnPropertyDescriptor(options, 'passive');
+
+  return passiveDescriptor && passiveDescriptor.writable !== true && passiveDescriptor.set === undefined ? Object.assign({}, options) : options;
+};
+
+var prepareSafeListener = function prepareSafeListener(listener, passive) {
+  if (!passive) return listener;
+  return function (e) {
+    e.preventDefault = _utils.noop;
+    return listener.call(this, e);
+  };
+};
+
+var overwriteAddEvent = function overwriteAddEvent(superMethod) {
+  EventTarget.prototype.addEventListener = function (type, listener, options) {
+    var usesListenerOptions = (typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object' && options !== null;
+    var useCapture = usesListenerOptions ? options.capture : options;
+
+    options = usesListenerOptions ? getWritableOptions(options) : {};
+    options.passive = getDefaultPassiveOption(options.passive, type);
+    options.capture = useCapture === undefined ? defaultOptions.capture : useCapture;
+    listener = prepareSafeListener(listener, options.passive);
+
+    superMethod.call(this, type, listener, options);
+  };
+};
+
+var supportsPassive = (0, _utils.eventListenerOptionsSupported)();
+
+var markEventsAsPassive = function markEventsAsPassive(events) {
+  if (Array.isArray(events)) {
+    supportedPassiveTypes = events;
+  }
+  if (supportsPassive) {
+    var addEvent = EventTarget.prototype.addEventListener;
+    overwriteAddEvent(addEvent);
+  }
+};
+
+module.exports = markEventsAsPassive;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var eventListenerOptionsSupported = exports.eventListenerOptionsSupported = function eventListenerOptionsSupported() {
+  var supported = false;
+
+  try {
+    var opts = Object.defineProperty({}, 'passive', {
+      get: function get() {
+        supported = true;
+      }
+    });
+
+    window.addEventListener('test', null, opts);
+    window.removeEventListener('test', null, opts);
+  } catch (e) {}
+
+  return supported;
+};
+
+var noop = exports.noop = function noop() {};
+
+/***/ })
+/******/ ]);
 //# sourceMappingURL=index.js.map
