@@ -48,7 +48,7 @@ const overwriteAddEvent = (superMethod) => {
 
 const supportsPassive = eventListenerOptionsSupported();
 
-function markEventsAsPassive(events) {
+export const markEventsAsPassive = (events) => {
     if (Array.isArray(events)) {
         supportedPassiveTypes = events;
     }
@@ -57,10 +57,6 @@ function markEventsAsPassive(events) {
         overwriteAddEvent(addEvent);
     }
 };
-
-console.log('markEventsAsPassive', markEventsAsPassive)
-module.exports = markEventsAsPassive;
-console.log('module.exports', module.exports)
 
 
 
