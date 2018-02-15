@@ -125,8 +125,9 @@ var markEventsAsPassive = function markEventsAsPassive(events) {
     overwriteAddEvent(addEvent);
   }
 };
-
+console.log('markEventsAsPassive', markEventsAsPassive);
 module.exports = markEventsAsPassive;
+console.log('module.exports', module.exports);
 
 /***/ }),
 /* 1 */
