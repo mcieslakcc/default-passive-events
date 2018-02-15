@@ -59,7 +59,7 @@ const markEventsAsPassive = (events) => {
     }
 };
 
-export default markEventsAsPassive;
+export { markEventsAsPassive as markEventsAsPassive };
 
 
 
