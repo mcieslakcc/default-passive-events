@@ -70,93 +70,73 @@
 "use strict";
 
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _utils = __webpack_require__(1);
-
-var defaultOptions = {
-  passive: true,
-  capture: false
-};
-
-var supportedPassiveTypes = ['scroll', 'wheel', 'touchstart', 'touchmove', 'touchenter', 'touchend', 'touchleave', 'mouseout', 'mouseleave', 'mouseup', 'mousedown', 'mousemove', 'mouseenter', 'mousewheel', 'mouseover'];
-var getDefaultPassiveOption = function getDefaultPassiveOption(passive, eventName) {
-  if (passive !== undefined) return passive;
-
-  return supportedPassiveTypes.indexOf(eventName) === -1 ? false : defaultOptions.passive;
-};
-
-var getWritableOptions = function getWritableOptions(options) {
-  var passiveDescriptor = Object.getOwnPropertyDescriptor(options, 'passive');
-
-  return passiveDescriptor && passiveDescriptor.writable !== true && passiveDescriptor.set === undefined ? Object.assign({}, options) : options;
-};
-
-var prepareSafeListener = function prepareSafeListener(listener, passive) {
-  if (!passive) return listener;
-  return function (e) {
-    e.preventDefault = _utils.noop;
-    return listener.call(this, e);
-  };
-};
-
-var overwriteAddEvent = function overwriteAddEvent(superMethod) {
-  EventTarget.prototype.addEventListener = function (type, listener, options) {
-    var usesListenerOptions = (typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object' && options !== null;
-    var useCapture = usesListenerOptions ? options.capture : options;
-
-    options = usesListenerOptions ? getWritableOptions(options) : {};
-    options.passive = getDefaultPassiveOption(options.passive, type);
-    options.capture = useCapture === undefined ? defaultOptions.capture : useCapture;
-    listener = prepareSafeListener(listener, options.passive);
-
-    superMethod.call(this, type, listener, options);
-  };
-};
-
-var supportsPassive = (0, _utils.eventListenerOptionsSupported)();
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+// import { eventListenerOptionsSupported, noop } from './utils';
+//
+// const defaultOptions = {
+//   passive: true,
+//   capture: false
+// };
+//
+// let supportedPassiveTypes = [
+//   'scroll', 'wheel',
+//     'touchstart', 'touchmove', 'touchenter', 'touchend', 'touchleave',
+//     'mouseout', 'mouseleave', 'mouseup', 'mousedown', 'mousemove', 'mouseenter', 'mousewheel', 'mouseover'
+// ];
+// const getDefaultPassiveOption = (passive, eventName) => {
+//   if (passive !== undefined) return passive;
+//
+//   return supportedPassiveTypes.indexOf(eventName) === -1 ? false : defaultOptions.passive;
+// };
+//
+// const getWritableOptions = (options) => {
+//   const passiveDescriptor = Object.getOwnPropertyDescriptor(options, 'passive');
+//
+//   return passiveDescriptor && passiveDescriptor.writable !== true && passiveDescriptor.set === undefined
+//     ? Object.assign({}, options)
+//     : options;
+// };
+//
+// const prepareSafeListener = (listener, passive) => {
+//   if (!passive) return listener;
+//   return function (e) {
+//     e.preventDefault = noop;
+//     return listener.call(this, e);
+//   };
+// };
+//
+// const overwriteAddEvent = (superMethod) => {
+//   EventTarget.prototype.addEventListener = function (type, listener, options) {
+//     const usesListenerOptions = typeof options === 'object' && options !== null;
+//     const useCapture          = usesListenerOptions ? options.capture : options;
+//
+//     options         = usesListenerOptions ? getWritableOptions(options) : {};
+//     options.passive = getDefaultPassiveOption(options.passive, type);
+//     options.capture = useCapture === undefined ? defaultOptions.capture : useCapture;
+//     listener        = prepareSafeListener(listener, options.passive);
+//
+//     superMethod.call(this, type, listener, options);
+//   };
+// };
+//
+// const supportsPassive = eventListenerOptionsSupported();
 
 var markEventsAsPassive = function markEventsAsPassive(events) {
-  if (Array.isArray(events)) {
-    supportedPassiveTypes = events;
-  }
-  if (supportsPassive) {
-    var addEvent = EventTarget.prototype.addEventListener;
-    overwriteAddEvent(addEvent);
-  }
+    // if (Array.isArray(events)) {
+    //     supportedPassiveTypes = events;
+    // }
+    // if (supportsPassive) {
+    //     const addEvent = EventTarget.prototype.addEventListener;
+    //     overwriteAddEvent(addEvent);
+    // }
+    console.log('test');
 };
 console.log('markEventsAsPassive', markEventsAsPassive);
-module.exports = markEventsAsPassive;
+exports.default = markEventsAsPassive;
+
 console.log('module.exports', module.exports);
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var eventListenerOptionsSupported = exports.eventListenerOptionsSupported = function eventListenerOptionsSupported() {
-  var supported = false;
-
-  try {
-    var opts = Object.defineProperty({}, 'passive', {
-      get: function get() {
-        supported = true;
-      }
-    });
-
-    window.addEventListener('test', null, opts);
-    window.removeEventListener('test', null, opts);
-  } catch (e) {}
-
-  return supported;
-};
-
-var noop = exports.noop = function noop() {};
 
 /***/ })
 /******/ ]);
